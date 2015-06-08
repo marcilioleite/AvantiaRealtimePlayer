@@ -18,8 +18,8 @@ namespace AvantiaRealtimePlayer
         public Process Process { get; set; }
 
         public EventHandler FrameChange;
-        private Task task; // Task que indica o status de completo do process
-        private FileSystemWatcher fileWatcher; // Observer do arquivo do frame
+        private Task task;
+        private FileSystemWatcher fileWatcher;
         
         public FFmpegFrameReader(string input, string output)
         {
@@ -41,8 +41,7 @@ namespace AvantiaRealtimePlayer
                     }
                 }
                 catch (ArgumentException)
-                {
-                }
+                { }
             };
             fileWatcher.EnableRaisingEvents = true;
             task = RunAsync();
