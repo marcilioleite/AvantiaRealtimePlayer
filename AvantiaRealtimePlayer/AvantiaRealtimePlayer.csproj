@@ -56,7 +56,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Readers\FFMpegFormat.cs" />
     <Compile Include="Readers\FrameByFrame.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -65,10 +64,12 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Readers\FrameByFrameFactory.cs" />
+    <Compile Include="Readers\IPoolOfVideoStreamReaders.cs" />
     <Compile Include="Readers\IVideoStreamReaderFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Readers\IVideoStreamReader.cs" />
+    <Compile Include="Readers\PoolOfVideoStreamReaders.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -94,6 +95,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -6,14 +6,10 @@ using System.Threading.Tasks;
 
 namespace AvantiaRealtimePlayer.Readers
 {
-    /// <summary>
-    /// Formatos aceitos pelo FFMPEG.
-    /// </summary>
-    public enum FFmpegFormat
+    public interface IVideoStreamReader
     {
-        JPEG,
-        PNG,
-        AVI,
-        MP4
+        Task RunFFmpeg();
+
+        void Stop();
     }
 }

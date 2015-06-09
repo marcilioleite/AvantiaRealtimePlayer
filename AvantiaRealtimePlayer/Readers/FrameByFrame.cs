@@ -35,12 +35,6 @@ namespace AvantiaRealtimePlayer.Readers
         
         #endregion
 
-        #region Constants
-
-        const string FFmpegExecutable = "ffmpeg";
-
-        #endregion
-
         #region Event Handlers
 
         public EventHandler<GrabFrameEventArgs> GrabFrame;
@@ -86,13 +80,8 @@ namespace AvantiaRealtimePlayer.Readers
                     }
                 }
             };
+
             mFileWatcher.EnableRaisingEvents = true;
-
-            foreach (var process in Process.GetProcessesByName(FFmpegExecutable))
-            {
-                process.Kill();
-            }
-
             mTask = RunFFmpeg();
         }
 
@@ -107,7 +96,7 @@ namespace AvantiaRealtimePlayer.Readers
 
             var arguments = "-i {0} -f image2 -update 1 -y {1}";
 
-            var processStartInfo = new ProcessStartInfo(FFmpegExecutable, 
+            var processStartInfo = new ProcessStartInfo("ffmpeg", 
                 string.Format(arguments, Input, Output))
             {
                 UseShellExecute = false,
@@ -133,6 +122,11 @@ namespace AvantiaRealtimePlayer.Readers
             FFmpegProcess.Start();
             
             return taskCompletionSource.Task;
+        }
+
+        public void Stop()
+        {
+            FFmpegProcess.Kill();
         }
     }
 
