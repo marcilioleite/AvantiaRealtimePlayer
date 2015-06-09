@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AvantiaRealtimePlayer.Readers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,28 +13,35 @@ namespace AvantiaRealtimePlayer
 {
     public partial class Form1 : Form
     {
-        private FFmpegFrameReader FFmpegFrameReader;
+        private FrameByFrame mFrameByFrameReader;
 
         public Form1()
         {
             InitializeComponent();
 
             var input = "rtsp://admin:4321@10.20.50.26/profile2/media.smp";
-            var output = "C:/Users/marcilio.leite/Desktop/tmp/frame.png";
-            FFmpegFrameReader = new FFmpegFrameReader(input, output);
-            FFmpegFrameReader.FrameChange += OnFrameChange;
+
+            mFrameByFrameReader = (FrameByFrame) FrameByFrameFactory
+                .Instance.Create(input);
+            
+            mFrameByFrameReader.GrabFrame += OnGrabFrame;
         }
 
-        private void OnFrameChange(object sender, EventArgs e)
+        private void OnGrabFrame(object sender, GrabFrameEventArgs e)
         {
-            pictureBox1.Image = FFmpegFrameReader.Frame;
+            try
+            {
+                pictureBox1.Image = e.Frame;
+            }
+            catch (InvalidOperationException)
+            { }
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (!FFmpegFrameReader.Process.HasExited)
+            if (!mFrameByFrameReader.FFmpegProcess.HasExited)
             {
-                FFmpegFrameReader.Process.Kill();
+                mFrameByFrameReader.FFmpegProcess.Kill();
             }
         }
     }
